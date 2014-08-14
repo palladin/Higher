@@ -5,7 +5,9 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Higher.Core", "src\Higher.Core\Higher.Core.fsproj", "{C979A279-D345-469C-84B9-DACCFDE18FFD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Higher.Tests", "Higher.Tests\Higher.Tests.fsproj", "{79CEA165-5660-4635-9854-FA3433E8CA86}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Higher.Tests", "tests\Higher.Tests\Higher.Tests.fsproj", "{79CEA165-5660-4635-9854-FA3433E8CA86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BF71DC5C-2815-4B55-A3F2-4636DD267EB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +26,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79CEA165-5660-4635-9854-FA3433E8CA86} = {BF71DC5C-2815-4B55-A3F2-4636DD267EB0}
 	EndGlobalSection
 EndGlobal
