@@ -1,11 +1,16 @@
 ﻿
+open System
+
 // Represents type application
 type App<'F, 'T> (token : 'F, value : obj) =
-    // Apply the secret token to have access the encapsulated value
+    do 
+        if Object.ReferenceEquals(token,  Unchecked.defaultof<'F>) then
+            raise <| new System.InvalidOperationException("Invalid token")
+    // Apply the secret token to have access to the encapsulated value
     member self.Apply(token' : 'F) =
-        if System.Object.ReferenceEquals(token, token') then  
+        if Object.ReferenceEquals(token, token') then  
             value 
-        else raise <| new System.InvalidOperationException("Invalid token")
+        else raise <| new InvalidOperationException("Invalid token")
 type App2<'F, 'T1, 'T2> = App<App<'F, 'T1>, 'T2>
 type App3<'F, 'T1, 'T2, 'T3> = App<App2<'F, 'T1, 'T2>, 'T3>
 type App4<'F, 'T1, 'T2, 'T3, 'T4> = App<App3<'F, 'T1, 'T2, 'T3>, 'T4>
