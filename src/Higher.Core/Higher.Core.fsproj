@@ -49,6 +49,8 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="CoreTypes.fs" />
+    <Compile Include="Functor.fs" />
+    <Compile Include="Applicative.fs" />
     <Compile Include="Monad.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>

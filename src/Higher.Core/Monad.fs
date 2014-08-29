@@ -1,10 +1,19 @@
 ﻿namespace Higher.Core
 
-// Monad Class and helper functions
+// Monad Class 
 [<AbstractClass>]
 type Monad<'M>() = 
+    inherit Applicative<'M>() 
+        override self.Pure x = self.Return x
+        override self.Apply appF app = 
+            self {
+                let! f = appF
+                let! x = app
+                return f x
+            }
     abstract Return<'T> : 'T -> App<'M, 'T>
     abstract Bind<'T, 'R> : App<'M, 'T> *  ('T -> App<'M, 'R>) -> App<'M, 'R>
+    
 
 // Generic Monad functions 
 module Monad = 
