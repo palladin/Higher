@@ -27,10 +27,3 @@ type SeqApplicative() =
             let fs, xs = Seq.Prj appF, Seq.Prj app
             xs |> Seq.zip fs |> Seq.map (fun (f, x) -> f x) |> Seq.Inj
             
-type OptioApplicative() = 
-    inherit Applicative<Option>() with
-        override self.Pure x = Option.Inj <| Some x
-        override self.Apply appF app =
-            match Option.Prj appF, Option.Prj app with
-            | Some f, Some x -> Option.Inj <| Some (f x)
-            | _ -> Option.Inj <| None

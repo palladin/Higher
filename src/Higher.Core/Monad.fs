@@ -17,6 +17,9 @@ type Monad<'M>() =
 
 // Generic Monad functions 
 module Monad = 
+    
+    let join (monad : Monad<'M>) (mm : App<'M, App<'M, 'T>>) : App<'M, 'T> = 
+        monad.Bind(mm, fun m -> m)
 
     let rec sequence (monad : Monad<'M>) (ms :  App<'M, 'T> list) : App<'M, 'T list> =
         match ms with

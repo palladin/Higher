@@ -1,32 +1,27 @@
 ﻿namespace Higher.Core
 
-// Functor Class 
+// Functor base classes 
+
 [<AbstractClass>]
 type Functor<'F>() = 
-    abstract Map<'T, 'R> : ('T -> 'R) -> App<'F, 'T> -> App<'F, 'R>
+    abstract Map<'A, 'B> : ('A -> 'B) -> App<'F, 'A> -> App<'F, 'B>
 
+[<AbstractClass>]
+type ContraFunctor<'F>() = 
+    abstract ContraMap<'A, 'B> : ('A -> 'B) -> App<'F, 'B> -> App<'F, 'A>
 
-// Basic Functor instances
-type ListFunctor() = 
-    inherit Functor<List>() with
-        override self.Map f func =
-            func
-            |> List.Prj 
-            |> List.map f  
-            |> List.Inj 
+[<AbstractClass>]
+type BiFunctor<'F>() = 
+    abstract BiMap<'A, 'B, 'C, 'D> : ('A -> 'B) -> ('C -> 'D) -> App2<'F, 'A, 'C> -> App2<'F, 'B, 'D>
+    member self.First<'A, 'B, 'C> (f : 'A -> 'B) (fac : App2<'F, 'A, 'C>) : App2<'F, 'B, 'C> = 
+        self.BiMap f id fac 
+    member self.Second<'A, 'B, 'C> (f : 'B -> 'C) (fab : App2<'F, 'A, 'B>) : App2<'F, 'A, 'C> = 
+        self.BiMap id f fab
 
-type SeqFunctor() = 
-    inherit Functor<Seq>() with
-        override self.Map f func =
-            func
-            |> Seq.Prj 
-            |> Seq.map f
-            |> Seq.Inj 
-            
-type OptionFunctor() = 
-    inherit Functor<Option>() with
-        override self.Map f func = 
-            func 
-            |> Option.Prj 
-            |> Option.map f 
-            |> Option.Inj
+[<AbstractClass>]
+type ProFunctor<'F>() =
+    abstract DiMap<'A, 'B, 'C, 'D> : ('C -> 'A) -> ('B -> 'D) -> App2<'F, 'A, 'B> -> App2<'F, 'C, 'D>
+    member self.First<'A, 'B, 'C> (f : 'C -> 'A) (fab : App2<'F, 'A, 'B>) : App2<'F, 'C, 'B> =
+        self.DiMap f id fab
+    member self.Second<'A, 'B, 'D> (f : 'B -> 'D) (fab : App2<'F, 'A, 'B>) : App2<'F, 'A, 'D> =
+        self.DiMap id f fab
