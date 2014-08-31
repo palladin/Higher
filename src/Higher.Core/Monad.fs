@@ -1,4 +1,5 @@
 ﻿namespace Higher.Core
+open System 
 
 // Monad Class 
 [<AbstractClass>]
@@ -70,4 +71,14 @@ type OptionMonad() =
             match Option.Prj m with
             | Some v -> f v
             | None -> Option.Inj None
+
+
+type ReaderMonad<'R>() = 
+    inherit Monad<App<Reader, 'R>>() with
+        override self.Return x = Reader.Inj <| R (fun env -> x)
+        override self.Bind (m, f) = 
+            Reader.Inj <| R (fun env -> 
+                                let (R rf) = Reader.Prj m 
+                                let (R rf') = Reader.Prj <| f (rf env)
+                                rf' env)
 
