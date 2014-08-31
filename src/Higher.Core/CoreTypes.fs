@@ -45,44 +45,55 @@ type Option private () =
         app.Apply(token) :?> _
 
 
+// A Singleton-like type for managing parameterized tokens 
+type AppToken<'App, 'R>() = 
+    static let appTokenRef = ref Unchecked.defaultof<App<'App, 'R>> 
+    static member Token (token : 'App) = 
+        if !appTokenRef = Unchecked.defaultof<App<'App, 'R>> then
+            lock appTokenRef (fun () ->
+                if !appTokenRef = Unchecked.defaultof<App<'App, 'R>> then
+                    appTokenRef := new App<'App, 'R>(token, Unchecked.defaultof<'R>)
+            )
+        !appTokenRef
+
 // Basic Types
 
 type Reader<'R, 'T> = R of ('R -> 'T)
 type Reader private () =
     static let token = new Reader()
-    static member Inj (value : Reader<'R, 'T>) : App2<Reader, 'R, 'T> = 
-        // new App<_, _>(token, value)
-        raise <| new NotImplementedException()
-    static member Prj (app : App2<Reader, 'R, 'T>) : Reader<'R, 'T> = 
-        //app.Apply(token) :?> _
-        raise <| new NotImplementedException()
+    static member Inj (value : Reader<'R, 'T>) : App2<Reader, 'R, 'T> =
+        let app = new App<Reader, 'R>(token, value)
+        new App2<Reader, 'R, 'T>(AppToken<Reader, 'R>.Token token, app)
+    static member Prj (app2 : App2<Reader, 'R, 'T>) : Reader<'R, 'T> = 
+        let app = app2.Apply(AppToken<Reader, 'R>.Token token) :?> App<Reader, 'R>
+        app.Apply(token) :?> _
 
 type Writer<'W, 'T> = W of ('T * 'W)
 type Writer private () =
     static let token = new Writer()
     static member Inj (value : Writer<'W, 'T>) : App2<Writer, 'W, 'T> = 
-        // new App<_, _>(token, value)
-        raise <| new NotImplementedException()
-    static member Prj (app : App2<Writer, 'W, 'T>) : Writer<'W, 'T> = 
-        //app.Apply(token) :?> _
-        raise <| new NotImplementedException()
+        let app = new App<Writer, 'W>(token, value)
+        new App2<Writer, 'W, 'T>(AppToken<Writer, 'W>.Token token, app)
+    static member Prj (app2 : App2<Writer, 'W, 'T>) : Writer<'W, 'T> = 
+        let app = app2.Apply(AppToken<Writer, 'W>.Token token) :?> App<Writer, 'W>
+        app.Apply(token) :?> _
 
 type State<'S, 'T> = S of ('S -> ('T * 'S))
 type State private () =
     static let token = new State()
     static member Inj (value : State<'S, 'T>) : App2<State, 'S, 'T> = 
-        // new App<_, _>(token, value)
-        raise <| new NotImplementedException()
-    static member Prj (app : App2<State, 'S, 'T>) : State<'S, 'T> = 
-        //app.Apply(token) :?> _
-        raise <| new NotImplementedException()
+        let app = new App<State, 'S>(token, value)
+        new App2<State, 'S, 'T>(AppToken<State, 'S>.Token token, app)
+    static member Prj (app2 : App2<State, 'S, 'T>) : State<'S, 'T> = 
+        let app = app2.Apply(AppToken<State, 'S>.Token token) :?> App<State, 'S>
+        app.Apply(token) :?> _
 
 type Cont<'R, 'T> = C of (('T -> 'R) -> 'R)
 type Cont private () =
     static let token = new Cont()
     static member Inj (value : Cont<'R, 'T>) : App2<Cont, 'R, 'T> = 
-        // new App<_, _>(token, value)
-        raise <| new NotImplementedException()
-    static member Prj (app : App2<Cont, 'S, 'T>) : Cont<'R, 'T> = 
-        //app.Apply(token) :?> _
-        raise <| new NotImplementedException()
+        let app = new App<Cont, 'R>(token, value)
+        new App2<Cont, 'R, 'T>(AppToken<Cont, 'R>.Token token, app)
+    static member Prj (app2 : App2<Cont, 'R, 'T>) : Cont<'R, 'T> = 
+        let app = app2.Apply(AppToken<Cont, 'R>.Token token) :?> App<Cont, 'R>
+        app.Apply(token) :?> _
