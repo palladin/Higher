@@ -1,6 +1,9 @@
 ﻿namespace Higher.Core
 open System
 
+// The basic idea of Type Defunctionalization is based on 
+// https://ocamllabs.github.io/higher/lightweight-higher-kinded-polymorphism.pdf
+// OCaml implementation https://github.com/ocamllabs/higher
 
 // Represents type application
 type App<'F, 'T> (token : 'F, value : obj) =
