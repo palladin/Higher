@@ -51,6 +51,7 @@
     <Compile Include="CoreTypes.fs" />
     <Compile Include="Functor.fs" />
     <Compile Include="Applicative.fs" />
+    <Compile Include="Monoid.fs" />
     <Compile Include="Monad.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
