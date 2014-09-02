@@ -14,6 +14,7 @@ type Monad<'M>() =
         }
     abstract Return<'T> : 'T -> App<'M, 'T>
     abstract Bind<'T, 'R> : App<'M, 'T> *  ('T -> App<'M, 'R>) -> App<'M, 'R>
+    member self.ReturnFrom m = m
     
 
 // Generic Monad functions 

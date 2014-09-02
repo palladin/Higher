@@ -97,3 +97,17 @@ type Cont private () =
     static member Prj (app2 : App2<Cont, 'R, 'T>) : Cont<'R, 'T> = 
         let app = app2.Apply(AppToken<Cont, 'R>.Token token) :?> App<Cont, 'R>
         app.Apply(token) :?> _
+
+
+// Monad Transformer types
+type OptionT<'M, 'T> = OT of App<'M, 'T option>
+type OptionT private () =    
+    static let token = new OptionT()
+    static member Inj (value : OptionT<'M, 'T>) : App2<OptionT, 'M, 'T> = 
+        let app = new App<OptionT, 'M>(token, value)
+        new App2<OptionT, 'M, 'T>(AppToken<OptionT, 'M>.Token token, app)
+    static member Prj (app2 : App2<OptionT, 'M, 'T>) : OptionT<'M, 'T> = 
+        let app = app2.Apply(AppToken<OptionT, 'M>.Token token) :?> App<OptionT, 'M>
+        app.Apply(token) :?> _
+    static member UnWrap (optionT : OptionT<'M, 'T>) = 
+        let (OT appOption) = optionT in appOption
