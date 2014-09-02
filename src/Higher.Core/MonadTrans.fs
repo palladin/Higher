@@ -21,7 +21,6 @@ type OptionTMonad<'M>(monad : Monad<'M>) =
         OptionT.Inj <| OT (monad {    
                               let! option = OptionT.UnWrap (OptionT.Prj m)
                               match option with 
-                              | Some x -> let! option' = OptionT.UnWrap (OptionT.Prj <| f x) 
-                                          return option' 
+                              | Some x -> return! OptionT.UnWrap (OptionT.Prj <| f x)  
                               | None -> return None 
                            })
