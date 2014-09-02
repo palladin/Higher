@@ -20,7 +20,8 @@ type OptionTMonad<'M>(monad : Monad<'M>) =
     override self.Bind (m, f) = 
         OptionT.Inj <| OT (monad {    
                               let! option = OptionT.UnWrap (OptionT.Prj m)
-                              return! (match option with 
-                                       | Some x -> monad { let! option' = OptionT.UnWrap (OptionT.Prj <| f x) in return option' }
-                                       | None -> monad { return None }) 
+                              match option with 
+                              | Some x -> let! option' = OptionT.UnWrap (OptionT.Prj <| f x) 
+                                          return option' 
+                              | None -> return None 
                            })
