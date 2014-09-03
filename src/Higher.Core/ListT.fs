@@ -1,6 +1,6 @@
 ﻿namespace Higher.Core
 
-// List Monad Transformer type
+// ListT Monad Transformer type
 type ListT<'M, 'T> = OT of App<'M, 'T list>
 type ListT private () =    
     static let token = new ListT()

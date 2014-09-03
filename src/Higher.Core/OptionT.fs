@@ -1,6 +1,6 @@
 ﻿namespace Higher.Core
 
-// Option Monad Transformer type
+// OptionT Monad Transformer type
 type OptionT<'M, 'T> = OT of App<'M, 'T option>
 type OptionT private () =    
     static let token = new OptionT()
