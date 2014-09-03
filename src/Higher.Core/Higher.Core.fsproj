@@ -54,7 +54,9 @@
     <Compile Include="Monoid.fs" />
     <Compile Include="Monad.fs" />
     <Compile Include="MonadTrans.fs" />
+    <Compile Include="ListT.fs" />
     <None Include="Script.fsx" />
+    <Compile Include="OptionT.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
