@@ -8,7 +8,7 @@ type Free private () =
         let app = new App<Free, 'F>(token, value)
         new App2<Free, 'F, 'T>(AppToken<Free, 'F>.Token token, app)
     static member Prj (app2 : App2<Free, 'F, 'T>) : Free<'F, 'T> = 
-        let app = app2.Apply(AppToken<Free, 'F>.Token token) :?> App<Free, 'R>
+        let app = app2.Apply(AppToken<Free, 'F>.Token token) :?> App<Free, 'F>
         app.Apply(token) :?> _
 
 // Free Monad instance
