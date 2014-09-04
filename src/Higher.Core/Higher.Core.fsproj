@@ -61,6 +61,7 @@
     <Compile Include="State.fs" />
     <Compile Include="Cont.fs" />
     <Compile Include="MonadTrans.fs" />
+    <Compile Include="WriterT.fs" />
     <None Include="Script.fsx" />
     <Compile Include="OptionT.fs" />
     <Compile Include="ListT.fs" />
