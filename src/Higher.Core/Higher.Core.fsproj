@@ -53,18 +53,19 @@
     <Compile Include="Applicative.fs" />
     <Compile Include="Monoid.fs" />
     <Compile Include="Monad.fs" />
-    <Compile Include="Writer.fs" />
-    <Compile Include="State.fs" />
-    <Compile Include="Cont.fs" />
-    <Compile Include="MonadTrans.fs" />
-    <Compile Include="StateT.fs" />
-    <None Include="Script.fsx" />
-    <Compile Include="OptionT.fs" />
-    <Compile Include="ListT.fs" />
     <Compile Include="Option.fs" />
     <Compile Include="List.fs" />
     <Compile Include="Seq.fs" />
     <Compile Include="Reader.fs" />
+    <Compile Include="Writer.fs" />
+    <Compile Include="State.fs" />
+    <Compile Include="Cont.fs" />
+    <Compile Include="MonadTrans.fs" />
+    <None Include="Script.fsx" />
+    <Compile Include="OptionT.fs" />
+    <Compile Include="ListT.fs" />
+    <Compile Include="StateT.fs" />
+    <Compile Include="ReaderT.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

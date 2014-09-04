@@ -14,13 +14,13 @@ type StateT private () =
         let app2 = app3.Apply(token'') :?> App2<StateT, 'S, 'M>
         let app = app2.Apply(token') :?> App<StateT, 'S>
         app.Apply(token) :?> _
-    static member UnWrap (stateT : StateT<'M, 'S, 'T>) = 
+    static member UnWrap (stateT : StateT<'S, 'M, 'T>) = 
         let (ST state) = stateT  in state
 
 
 
 // StateT Monad Transformer instance
-type ListTMonadTrans<'S>() = 
+type StateTMonadTrans<'S>() = 
     inherit MonadTrans<App<StateT, 'S>>() with
     override self.Lift monad m = 
         StateT.Inj <| ST (fun s -> monad { let! x = m in return (x, s) })
