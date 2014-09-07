@@ -34,7 +34,7 @@ type StateTMonad<'S, 'M>(monad : Monad<'M>) =
         StateT.Inj <| ST (fun s -> 
                                 monad {
                                     let! (x, s') = StateT.UnWrap (StateT.Prj m) s 
-                                    return! StateT.UnWrap (StateT.Prj (f x)) s
+                                    return! StateT.UnWrap (StateT.Prj (f x)) s'
                                 })
 
     member self.Get() : App3<StateT, 'S, 'M, 'S> = 
