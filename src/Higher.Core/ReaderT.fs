@@ -14,8 +14,8 @@ type ReaderT private () =
         let app2 = app3.Apply(token'') :?> App2<ReaderT, 'R, 'M>
         let app = app2.Apply(token') :?> App<ReaderT, 'R>
         app.Apply(token) :?> _
-    static member UnWrap (readerT : ReaderT<'R, 'M, 'T>) = 
-        let (RT reader) = readerT in reader
+    static member Run (readerT : App3<ReaderT, 'R, 'M, 'T>) = 
+        let (RT reader) = ReaderT.Prj readerT in reader
 
 
 
@@ -33,8 +33,8 @@ type ReaderTMonad<'R, 'M>(monad : Monad<'M>) =
     override self.Bind (m, f) = 
         ReaderT.Inj <| RT (fun env -> 
                                 monad {
-                                    let! x = ReaderT.UnWrap (ReaderT.Prj m) env 
-                                    return! ReaderT.UnWrap (ReaderT.Prj (f x)) env
+                                    let! x = ReaderT.Run m env 
+                                    return! ReaderT.Run (f x) env
                                 })
 
     member self.Get() : App3<ReaderT, 'R, 'M, 'R> = 

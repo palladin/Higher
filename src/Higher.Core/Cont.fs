@@ -10,6 +10,8 @@ type Cont private () =
     static member Prj (app2 : App2<Cont, 'R, 'T>) : Cont<'R, 'T> = 
         let app = app2.Apply(AppToken<Cont, 'R>.Token token) :?> App<Cont, 'R>
         app.Apply(token) :?> _
+    static member Run(cont : App2<Cont, 'R, 'T>) = 
+        let (C f) = Cont.Prj cont in f
 
 // Continuation Monad instance
 type ContMonad<'R>() = 
@@ -17,8 +19,6 @@ type ContMonad<'R>() =
     override self.Return x = Cont.Inj <| C (fun k -> k x)
     override self.Bind (m, f) = 
         Cont.Inj <| C (fun k -> 
-                            let (C contF) = Cont.Prj m
-                            contF (fun x -> 
-                                        let (C contF') = Cont.Prj <| f x
-                                        contF' k))
+                            let contF = Cont.Run m
+                            contF (fun x -> Cont.Run (f x) k))
 

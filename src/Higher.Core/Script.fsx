@@ -11,9 +11,8 @@ let incr (monad : StateTMonad<_, _>) a = monad {
 
 let zipIndex (xs: 'a list) : (int * 'a) list =
     let monad = new StateTMonad<_, _>(new ContMonad<_>())
-    let state = Monad.mapM monad (incr monad) xs
-    let cont = StateT.UnWrap (StateT.Prj state) 0
-    let (C cont) =  Cont.Prj cont
-    cont (fun (a, _) -> a)
+    Cont.Run (StateT.Run (Monad.mapM monad (incr monad) xs) 0) (fun (a, _) -> a)
     
-zipIndex [1..10000] 
+    
+zipIndex [1..100000]
+

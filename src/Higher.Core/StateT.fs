@@ -14,8 +14,8 @@ type StateT private () =
         let app2 = app3.Apply(token'') :?> App2<StateT, 'S, 'M>
         let app = app2.Apply(token') :?> App<StateT, 'S>
         app.Apply(token) :?> _
-    static member UnWrap (stateT : StateT<'S, 'M, 'T>) = 
-        let (ST state) = stateT  in state
+    static member Run (stateT : App3<StateT, 'S, 'M, 'T>) = 
+        let (ST state) = StateT.Prj stateT  in state
 
 
 
@@ -33,8 +33,8 @@ type StateTMonad<'S, 'M>(monad : Monad<'M>) =
     override self.Bind (m, f) = 
         StateT.Inj <| ST (fun s -> 
                                 monad {
-                                    let! (x, s') = StateT.UnWrap (StateT.Prj m) s 
-                                    return! StateT.UnWrap (StateT.Prj (f x)) s'
+                                    let! (x, s') = StateT.Run m s 
+                                    return! StateT.Run (f x) s'
                                 })
 
     member self.Get() : App3<StateT, 'S, 'M, 'S> = 

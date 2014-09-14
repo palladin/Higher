@@ -14,8 +14,8 @@ type WriterT private () =
         let app2 = app3.Apply(token'') :?> App2<WriterT, 'W, 'M>
         let app = app2.Apply(token') :?> App<WriterT, 'W>
         app.Apply(token) :?> _
-    static member UnWrap (writerT : WriterT<'W, 'M, 'T>) = 
-        let (WT writer) = writerT in writer
+    static member Run (writerT : App3<WriterT, 'W, 'M, 'T>) = 
+        let (WT writer) = WriterT.Prj writerT in writer
 
 
 
@@ -32,8 +32,8 @@ type WriterTMonad<'W, 'M>(monoid : Monoid<'W>, monad : Monad<'M>) =
     override self.Return x = WriterT.Inj <| WT (monad { return (x, monoid.Empty) })
     override self.Bind (m, f) = 
         WriterT.Inj <| WT (monad {
-                                    let! (x, v) = WriterT.UnWrap (WriterT.Prj m) 
-                                    let! (y, v') = WriterT.UnWrap (WriterT.Prj (f x))
+                                    let! (x, v) = WriterT.Run m 
+                                    let! (y, v') = WriterT.Run <| f x
                                     return (y, monoid.Append v v')
                                 })
     

@@ -10,13 +10,15 @@ type Writer private () =
     static member Prj (app2 : App2<Writer, 'W, 'T>) : Writer<'W, 'T> = 
         let app = app2.Apply(AppToken<Writer, 'W>.Token token) :?> App<Writer, 'W>
         app.Apply(token) :?> _
+    static member Run(writer : App2<Writer, 'W, 'T>) = 
+        let (W (v, w)) = Writer.Prj writer in (v, w)
 
 // Writer Monad instance
 type WriterMonad<'W>(monoid : Monoid<'W>) = 
     inherit Monad<App<Writer, 'W>>() with
     override self.Return x = Writer.Inj <| W (x, monoid.Empty)
     override self.Bind (m, f) =
-        let (W (x, v)) = Writer.Prj m
-        let (W (y, v')) = Writer.Prj <| f x   
+        let (x, v) = Writer.Run m
+        let (y, v') = Writer.Run <| f x   
         Writer.Inj <| W (y, monoid.Append v v')
 

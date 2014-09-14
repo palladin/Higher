@@ -14,8 +14,8 @@ type ContT private () =
         let app2 = app3.Apply(token'') :?> App2<ContT, 'R, 'M>
         let app = app2.Apply(token') :?> App<ContT, 'R>
         app.Apply(token) :?> _
-    static member UnWrap (contT : ContT<'R, 'M, 'T>) = 
-        let (CT cont) = contT in cont
+    static member Run (contT : App3<ContT, 'R, 'M, 'T>) = 
+        let (CT cont) = ContT.Prj contT in cont
 
 
 
@@ -32,9 +32,8 @@ type ContTMonad<'R, 'M>(monad : Monad<'M>) =
     override self.Return x = ContT.Inj <| CT (fun k -> monad { return! k x })
     override self.Bind (m, f) = 
         ContT.Inj <| CT (fun k ->
-                                let cont = ContT.UnWrap (ContT.Prj m) 
+                                let cont = ContT.Run m 
                                 cont (fun x -> 
                                         monad {
-                                            let cont' = ContT.UnWrap (ContT.Prj (f x))
-                                            return! cont' k
+                                            return! ContT.Run (f x) k
                                         })) 

@@ -10,8 +10,8 @@ type OptionT private () =
     static member Prj (app2 : App2<OptionT, 'M, 'T>) : OptionT<'M, 'T> = 
         let app = app2.Apply(AppToken<OptionT, 'M>.Token token) :?> App<OptionT, 'M>
         app.Apply(token) :?> _
-    static member UnWrap (optionT : OptionT<'M, 'T>) = 
-        let (OT appOption) = optionT in appOption
+    static member Run (optionT : App2<OptionT, 'M, 'T>) = 
+        let (OT appOption) = OptionT.Prj optionT in appOption
 
 
 
@@ -28,8 +28,8 @@ type OptionTMonad<'M>(monad : Monad<'M>) =
     override self.Return x = OptionT.Inj <| OT (monad { return Some x })
     override self.Bind (m, f) = 
         OptionT.Inj <| OT (monad {    
-                              let! option = OptionT.UnWrap (OptionT.Prj m)
+                              let! option = OptionT.Run m
                               match option with 
-                              | Some x -> return! OptionT.UnWrap (OptionT.Prj <| f x)  
+                              | Some x -> return! OptionT.Run <| f x  
                               | None -> return None 
                            })

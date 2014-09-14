@@ -10,8 +10,8 @@ type ListT private () =
     static member Prj (app2 : App2<ListT, 'M, 'T>) : ListT<'M, 'T> = 
         let app = app2.Apply(AppToken<ListT, 'M>.Token token) :?> App<ListT, 'M>
         app.Apply(token) :?> _
-    static member UnWrap (listT : ListT<'M, 'T>) = 
-        let (OT appList) = listT in appList
+    static member Run (listT : App2<ListT, 'M, 'T>) = 
+        let (OT appList) = ListT.Prj listT in appList
 
 
 
@@ -28,7 +28,7 @@ type ListTMonad<'M>(monad : Monad<'M>) =
     override self.Return x = ListT.Inj <| OT (monad { return [x] })
     override self.Bind (m, f) = 
         ListT.Inj <| OT (monad {    
-                              let! xs = ListT.UnWrap (ListT.Prj m)
-                              let! yss = Monad.mapM monad (ListT.UnWrap << ListT.Prj << f) xs 
+                              let! xs = ListT.Run m
+                              let! yss = Monad.mapM monad (ListT.Run << f) xs 
                               return List.concat yss
                            })

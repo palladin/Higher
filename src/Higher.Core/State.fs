@@ -10,6 +10,8 @@ type State private () =
     static member Prj (app2 : App2<State, 'S, 'T>) : State<'S, 'T> = 
         let app = app2.Apply(AppToken<State, 'S>.Token token) :?> App<State, 'S>
         app.Apply(token) :?> _
+    static member Run(state : App2<State, 'S, 'T>) = 
+        let (S f) = State.Prj state in f
 
 // State Monad instance
 type StateMonad<'S>() = 
@@ -17,10 +19,8 @@ type StateMonad<'S>() =
     override self.Return x = State.Inj <| S (fun s -> (x, s))
     override self.Bind (m, f) = 
         State.Inj <| S (fun s -> 
-                            let (S stateF) = State.Prj m
-                            let (x, s') = stateF s
-                            let (S stateF') = State.Prj <| f x
-                            stateF' s')
+                            let (x, s') = (State.Run m) s
+                            State.Run (f x) s')
 
     member self.Get() : App2<State, 'S, 'S> = 
         State.Inj <| S (fun s -> (s, s))
