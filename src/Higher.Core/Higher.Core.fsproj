@@ -54,6 +54,9 @@
     <Compile Include="Monoid.fs" />
     <Compile Include="Traversable.fs" />
     <Compile Include="Monad.fs" />
+    <Compile Include="Category.fs" />
+    <Compile Include="Fun.fs" />
+    <Compile Include="Index.fs" />
     <Compile Include="Option.fs" />
     <Compile Include="Choice.fs" />
     <Compile Include="List.fs" />

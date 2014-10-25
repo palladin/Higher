@@ -2,7 +2,6 @@
 #r "bin/Release/Higher.Core.dll"
 open Higher.Core
 
-
 let incr (monad : StateTMonad<_, _>) a = monad {
         let! n = monad.Get()
         do! monad.Put (n + 1)
@@ -16,3 +15,28 @@ let zipIndex (xs: 'a list) : (int * 'a) list =
     
 zipIndex [1..100000]
 
+// Category Example
+
+let f = Fun.Inj (fun x -> x + 1) 
+let g = Fun.Inj (fun (x : int) -> string x)
+
+let category = new FunCategory()
+let h = category.Compose f g
+Fun.Prj h 1 // "2"
+
+// Index-preserving functions
+let f' = Index.Inj { new Index<Option, List> with
+                        member self.Invoke x = 
+                            match Option.Prj x with
+                            | Some v -> List.Inj [v] 
+                            | None -> List.Inj [] }
+let g' = Index.Inj { new Index<List, Seq> with
+                        member self.Invoke x = 
+                            x |> List.Prj |> Seq.ofList |> Seq.Inj }
+
+let indexCategory = new IndexCategory()
+let h' = indexCategory.Compose f' g'
+Some 2
+|> Option.Inj
+|> (Index.Prj h').Invoke 
+|> Seq.Prj // [2]
