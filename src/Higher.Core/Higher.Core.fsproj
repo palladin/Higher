@@ -73,6 +73,8 @@
     <Compile Include="ReaderT.fs" />
     <Compile Include="WriterT.fs" />
     <Compile Include="ContT.fs" />
+    <Compile Include="Algebra.fs" />
+    <Compile Include="Fix.fs" />
     <Compile Include="FreeMonad.fs" />
     <Compile Include="Cofree.fs" />
     <None Include="Script.fsx" />
