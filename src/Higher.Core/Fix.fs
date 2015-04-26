@@ -3,25 +3,23 @@
 /// Fix point.
 type Fix<'F> = Fix of App<'F, Fix<'F>>
 
-type Fix private () =
-  static let token = new Fix()    
-  static member Inj (value : Fix<'F>) : App<Fix, 'F> =
-    new App<Fix, 'F>(token, value)  
-  static member Prj (app2 : App<Fix, 'F>) : Fix<'F> =
-    app2.Apply(token) :?> _
-
-type Fix with
+module Fix =
   
-  static member un (Fix(f)) = f
+  let inline un (Fix(f)) = f
 
-  static member cata (func : Functor<'F> ) (alg : Algebra<'F, 'A>) (fix : Fix<'F>) : 'A =
+  let rec cata (func : Functor<'F> ) (alg : Algebra<'F, 'A>) (fix : Fix<'F>) : 'A =
     fix
-    |> Fix.un
-    |> func.Map (Fix.cata func alg)
+    |> un
+    |> func.Map (cata func alg)
     |> alg
 
-  static member ana (func : Functor<'F>) (coalg : CoAlgebra<'F, 'A>) (a : 'A) : Fix<'F> =
+  let rec ana (func : Functor<'F>) (coalg : CoAlgebra<'F, 'A>) (a : 'A) : Fix<'F> =
     a
     |> coalg
-    |> func.Map (Fix.ana func coalg)
+    |> func.Map (ana func coalg)
     |> Fix.Fix
+
+  let hylo (func : Functor<'F>) (alg : Algebra<'F, 'B>) (coalg : CoAlgebra<'F, 'A>) (a : 'A) : 'B =    
+    ana func coalg a |> cata func alg
+
+  
