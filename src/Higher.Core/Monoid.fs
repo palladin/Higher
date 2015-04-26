@@ -42,3 +42,8 @@ type SeqMonoid<'T>() =
     inherit Monoid<seq<'T>>() with 
     override self.Empty = Seq.empty   
     override self.Append xs ys = Seq.append xs ys
+
+type EndoMonoid<'T>() =
+    inherit Monoid<'T -> 'T>() with
+    override self.Empty = id
+    override self.Append f g = f >> g
