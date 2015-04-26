@@ -17,3 +17,20 @@ module Comonad =
 
   let rec fix (comonad : Comonad<'W>) (w : App<'W, App<'W, 'A> -> 'A>) : 'A =
     comonad.Extend (fix comonad) w |> comonad.Extract
+
+
+[<AbstractClass>]
+type ComonadZip<'W>() =
+  inherit Comonad<'W>()
+    abstract Apply : App<'W, 'A -> 'B> -> App<'W, 'A> -> App<'W, 'B>
+
+module ComonadZip =
+  
+  let lift2 (comonad : ComonadZip<'W>) (f : 'A -> 'B -> 'C) (wa : App<'W, 'A>) (wb : App<'W, 'B>) : App<'W, 'C> =
+    let wbc = comonad.Extend (comonad.Extract >> f) wa
+    comonad.Apply wbc wb
+
+  let zip (comonad : ComonadZip<'W>) (wa : App<'W, 'A>) (wb : App<'W, 'B>) : App<'W, 'A * 'B> =
+    lift2 comonad (fun a b -> a,b) wa wb
+    
+    
