@@ -25,3 +25,21 @@ type ProFunctor<'F>() =
         self.DiMap f id fab
     member self.Second<'A, 'B, 'D> (f : 'B -> 'D) (fab : App2<'F, 'A, 'B>) : App2<'F, 'A, 'D> =
         self.DiMap id f fab
+
+
+module FunctorLaws =
+  
+  let identity (eq : App<'F, 'A> -> App<'F, 'A> -> bool) (func : Functor<'F>) (fa : App<'F, 'A>) =
+    eq (func.Map id fa) fa
+
+module BiFunctorLaws =
+  
+  let identity (eq : App2<'F, 'A, 'B> -> App2<'F, 'A, 'B> -> bool) (func : BiFunctor<'F>) (fab : App2<'F, 'A, 'B>) =
+    eq (func.BiMap id id fab) fab
+
+module ProFunctorLaws =
+  
+  let identity (eq : App2<'F, 'A, 'B> -> App2<'F, 'A, 'B> -> bool) (func : ProFunctor<'F>) (fab : App2<'F, 'A, 'B>) =
+    eq (func.DiMap id id fab) fab  
+
+   
