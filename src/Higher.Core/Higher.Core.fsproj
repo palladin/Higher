@@ -56,6 +56,7 @@
     <Compile Include="Traversable.fs" />
     <Compile Include="Monad.fs" />
     <Compile Include="Comonad.fs" />
+    <Compile Include="Arrow.fs" />
     <Compile Include="Identity.fs" />
     <Compile Include="Fun.fs" />
     <Compile Include="Index.fs" />
