@@ -40,3 +40,16 @@ Some 2
 |> Option.Inj
 |> (Index.Prj h').Invoke 
 |> Seq.Prj // [2]
+
+
+// Lens example
+open Lens
+
+let fstL<'a, 'b> : FTLens<'a * 'b, 'a> =
+    lens fst <| fun x (_, y) -> (x, y)
+let sndL<'a, 'b> : FTLens<'a * 'b, 'b> =
+    lens snd <| fun y (x, _) -> (x, y)
+
+(("2", (41, true)), 1) 
+|> over (fstL >-> sndL >-> fstL) (fun x -> x + 1) // (("2", (42, true)), 1)
+

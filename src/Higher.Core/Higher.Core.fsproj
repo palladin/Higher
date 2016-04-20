@@ -57,7 +57,6 @@
     <Compile Include="Monad.fs" />
     <Compile Include="Comonad.fs" />
     <Compile Include="Arrow.fs" />
-    <Compile Include="Identity.fs" />
     <Compile Include="Fun.fs" />
     <Compile Include="Index.fs" />
     <Compile Include="Option.fs" />
@@ -80,6 +79,9 @@
     <Compile Include="FreeMonad.fs" />
     <Compile Include="Cofree.fs" />
     <None Include="Script.fsx" />
+    <Compile Include="Identity.fs" />
+    <Compile Include="Const.fs" />
+    <Compile Include="FTLens.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
