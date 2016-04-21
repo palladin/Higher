@@ -45,11 +45,12 @@ Some 2
 // Lens example
 open Lens
 
-let fstL<'a, 'b> : FTLens<'a * 'b, 'a> =
+let fstL<'a, 'b, 'c> : FTLens<'a * 'b, 'c * 'b, 'a, 'c> =
     lens fst <| fun x (_, y) -> (x, y)
-let sndL<'a, 'b> : FTLens<'a * 'b, 'b> =
+let sndL<'a, 'b, 'c> : FTLens<'a * 'b, 'a * 'c, 'b, 'c> =
     lens snd <| fun y (x, _) -> (x, y)
 
-(("2", (41, true)), 1) 
-|> over (fstL >-> sndL >-> fstL) (fun x -> x + 1) // (("2", (42, true)), 1)
+do ((1, (2.0, '3')), true)
+    |> over (fstL >-> sndL >-> fstL) (fun x -> x + 3.0 |> string)
+    |> printfn "%A" // ((1, ("5", '3')), true)
 
