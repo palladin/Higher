@@ -15,7 +15,7 @@ type CodenT private () =
         app.Apply(token) :?> _
 
 
-type CodensityMonad<'M>(m : Monad<'M>) = 
+type CodensityMonad<'M>() = 
     inherit Monad<App<CodenT, 'M>>()
     override self.Return (x : 'A) = 
         CodenT.Inj <| 
