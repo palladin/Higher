@@ -2,6 +2,7 @@
 #r "bin/Release/Higher.Core.dll"
 open Higher.Core
 
+
 let incr (monad : StateTMonad<_, _>) a = monad {
         let! n = monad.Get()
         do! monad.Put (n + 1)
@@ -54,3 +55,16 @@ do ((1, (2.0, '3')), true)
     |> over (fstL >-> sndL >-> fstL) (fun x -> x + 3.0 |> string)
     |> printfn "%A" // ((1, ("5", '3')), true)
 
+
+// Perfect tree example
+
+let p = Succ (Succ (Zero ((1, 2), (3, 4))))
+
+let phi = { new PerfectFolder<List> with 
+    member self.Zero<'T>(v : 'T) : App<List, 'T> = 
+        List.Inj [v]
+    member self.Succ<'T>(app : App<List, 'T * 'T>) : App<List, 'T> = 
+        let v = List.Prj app
+        List.Inj <| List.collect (fun (f, s) -> [f; s]) v }
+
+List.Prj (Perfect.foldP phi p) // [1; 2; 3; 4]
