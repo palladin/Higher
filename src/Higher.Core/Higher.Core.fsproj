@@ -85,6 +85,8 @@
     <Compile Include="PerfectTree.fs" />
     <Compile Include="Codensity.fs" />
     <Compile Include="Kleisli.fs" />
+    <Compile Include="Flip.fs" />
+    <Compile Include="Leibniz.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

@@ -1,5 +1,8 @@
 ﻿namespace Higher.Core
 
+// Source
+// https://github.com/ocamllabs/higher/blob/master/examples/example-1-perfect-trees.ml
+
 type Perfect<'T> = Zero of 'T | Succ of Perfect<'T * 'T> 
 
 
