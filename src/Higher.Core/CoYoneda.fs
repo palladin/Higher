@@ -3,7 +3,7 @@
 type Lambda<'F, 'A, 'R> = 
     abstract Invoke<'B> : ('B -> 'A) -> App<'F, 'B> -> 'R
 
-// type CoYoneda f α = ∃β. (β → α) → f β)
+// type CoYoneda f α = ∃β. (β → α) * f β
 [<AbstractClass>]
 type CoYoneda<'F, 'A>() =
     abstract Invoke<'R> : Lambda<'F, 'A, 'R> -> 'R 
