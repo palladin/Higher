@@ -83,10 +83,11 @@
     <Compile Include="Const.fs" />
     <Compile Include="FTLens.fs" />
     <Compile Include="PerfectTree.fs" />
-    <Compile Include="Codensity.fs" />
     <Compile Include="Kleisli.fs" />
     <Compile Include="Flip.fs" />
     <Compile Include="Leibniz.fs" />
+    <Compile Include="Yoneda.fs" />
+    <Compile Include="Codensity.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
