@@ -4,6 +4,7 @@ type Lambda<'G, 'H, 'A, 'R> =
     abstract Invoke<'B> : (App<'G, 'B> -> 'A) -> App<'H, 'B> -> 'R
 
 // type Lan g h α = ∃β. (g β → α) * h β
+// type CoYoneda f a = Lan Id f a
 [<AbstractClass>]
 type Lan<'G, 'H, 'A>() =
     abstract Invoke<'R> : Lambda<'G, 'H, 'A, 'R> -> 'R 

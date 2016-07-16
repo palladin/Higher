@@ -1,8 +1,11 @@
 ﻿namespace Higher.Core
 
 // type Ran g h α = R (∀β. (α → g β) → h β)
+// type Codensity m a = Ran m m a
+// type Yoneda f a = Ran Id f a
 type Ran<'G, 'H, 'A> =
     abstract Invoke<'B> : ('A -> App<'G, 'B>) -> App<'H, 'B>
+
 
 
 type Ran private () =    
