@@ -14,6 +14,12 @@ type Fun private () =
         Fun.Prj func 
 
 
+// Function Functor
+type FunFunctor<'E>() = 
+    inherit Functor<App<Fun, 'E>>() 
+    override self.Map (f : 'A -> 'B) (v : App2<Fun, 'E, 'A>) : App2<Fun, 'E, 'B> =
+        Fun.Inj <| fun e -> f (Fun.Prj v e)
+
 // Function Category instance
 type FunCategory() = 
     inherit Category<Fun>() with
