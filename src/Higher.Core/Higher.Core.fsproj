@@ -57,7 +57,6 @@
     <Compile Include="Monad.fs" />
     <Compile Include="Comonad.fs" />
     <Compile Include="Arrow.fs" />
-    <Compile Include="Fun.fs" />
     <Compile Include="Index.fs" />
     <Compile Include="Option.fs" />
     <Compile Include="Choice.fs" />
@@ -86,11 +85,15 @@
     <Compile Include="Kleisli.fs" />
     <Compile Include="Flip.fs" />
     <Compile Include="Leibniz.fs" />
+    <Compile Include="Compose.fs" />
     <Compile Include="Codensity.fs" />
     <Compile Include="RightKan.fs" />
     <Compile Include="LeftKan.fs" />
     <Compile Include="Yoneda.fs" />
     <Compile Include="CoYoneda.fs" />
+    <Compile Include="Adjunction.fs" />
+    <Compile Include="Fun.fs" />
+    <Compile Include="Tuple.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

@@ -68,3 +68,14 @@ let phi = { new PerfectFolder<List> with
         List.Inj <| List.collect (fun (f, s) -> [f; s]) v }
 
 List.Prj (Perfect.foldP phi p) // [1; 2; 3; 4]
+
+
+// Curry - Uncurry Adjunction
+
+type CurryUncurry<'A>() =
+    inherit Adjunction<App<Tuple, 'A>, App<Fun, 'A>>(new TupleFunctor<'A>(), new FunFunctor<'A>())
+    override self.Unit (v : 'B) : App<App<Fun, 'A>, App2<Tuple, 'A, 'B>> = 
+        Fun.Inj (fun x -> Tuple.Inj (x, v))
+    override self.CoUnit (v : App<App<Tuple, 'A>, App2<Fun, 'A, 'B>> ) : 'B = 
+        let (x, f) = Tuple.Prj v
+        Fun.Prj f x
