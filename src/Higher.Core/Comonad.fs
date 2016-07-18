@@ -15,8 +15,17 @@ module Comonad =
   let duplicate (comonad : Comonad<'W>) (w : App<'W, 'A>) : App<'W, App<'W, 'A>> =
     comonad.Extend id w
 
+  /// Comonadic fixed point.
   let rec fix (comonad : Comonad<'W>) (w : App<'W, App<'W, 'A> -> 'A>) : 'A =
     comonad.Extend (fix comonad) w |> comonad.Extract
+
+  /// Comonadic fixed point.
+  let rec cfix (comonad : Comonad<'W>) (f : App<'W, 'A> -> 'A) : App<'W, 'A> =
+    comonad.Extend f (cfix comonad f)
+
+  /// Comonadic fixed point.
+  let rec kfix (comonad : Comonad<'W>) (w : App<'W, App<'W, 'A> -> 'A>) : App<'W, 'A> =
+    comonad.Extend (kfix comonad >> comonad.Extract) w
 
 
 [<AbstractClass>]
