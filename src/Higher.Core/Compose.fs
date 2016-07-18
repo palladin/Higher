@@ -15,3 +15,22 @@ type Compose private () =
         let app = app2.Apply(token') :?> App<Compose, 'F>
         app.Apply(token) :?> _
 
+
+type ComposeFunctor<'F, 'G>(F : Functor<'F>, G : Functor<'G>) = 
+    inherit Functor<App2<Compose, 'F, 'G>>()
+    override self.Map (f : 'A -> 'B) (app : App3<Compose, 'F, 'G, 'A>) : App3<Compose, 'F, 'G, 'B> = 
+        let (Comp app') = Compose.Prj app
+        Compose.Inj <| Comp (F.Map (G.Map f) app')
+        
+
+type ComposeApplicative<'F, 'G>(F : Applicative<'F>, G : Applicative<'G>) = 
+    inherit Applicative<App2<Compose, 'F, 'G>>()
+    override self.Pure (v : 'A) : App3<Compose, 'F, 'G, 'A> = 
+        Compose.Inj <| Comp  (F.Pure (G.Pure v))
+    override self.Apply (f : App<App2<Compose, 'F, 'G>, 'A -> 'B>) (app : App3<Compose, 'F, 'G, 'A>) : App3<Compose, 'F, 'G, 'B> =
+        let (Comp f') = Compose.Prj f
+        let (Comp app') = Compose.Prj app
+        Compose.Inj <| Comp (F.Apply (F.Map G.Apply f') app')
+        
+        
+
