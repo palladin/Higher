@@ -14,4 +14,6 @@ type Flip private () =
         let app2 = app3.Apply(token'') :?> App2<Flip, 'F, 'A>
         let app = app2.Apply(token') :?> App<Flip, 'F>
         app.Apply(token) :?> _
+    static member Run (app3 : App3<Flip, 'F, 'A, 'B>) : App2<'F, 'B, 'A> = 
+        let (F app) = Flip.Prj app3 in app
 

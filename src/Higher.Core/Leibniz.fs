@@ -38,5 +38,5 @@ module Leibniz =
 
     let symm : AppEq<'A, 'B> -> AppEq<'B, 'A> = fun ab ->
         let flip = Flip.Inj <| F (refl ()) 
-        let (F ba) =  Flip.Prj <| subst ab flip
-        ba
+        Flip.Run <| subst ab flip
+        
