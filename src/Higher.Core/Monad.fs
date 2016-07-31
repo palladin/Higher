@@ -20,6 +20,9 @@ type Monad<'M>() =
 // Generic Monad functions 
 module Monad = 
     
+    let compose (monad : Monad<'M>) (f : 'A -> App<'M, 'B>) (g : 'B -> App<'M, 'C>) : 'A -> App<'M, 'C> = 
+        fun a -> monad { let! b = f a in return! g b }
+
     let join (monad : Monad<'M>) (mm : App<'M, App<'M, 'T>>) : App<'M, 'T> = 
         monad.Bind(mm, fun m -> m)
 
