@@ -94,6 +94,7 @@
     <Compile Include="Adjunction.fs" />
     <Compile Include="Fun.fs" />
     <Compile Include="Tuple.fs" />
+    <Compile Include="Coproduct.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
