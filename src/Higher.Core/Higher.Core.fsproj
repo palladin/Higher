@@ -53,9 +53,10 @@
     <Compile Include="Functor.fs" />
     <Compile Include="Applicative.fs" />
     <Compile Include="Monoid.fs" />
-    <Compile Include="Traversable.fs" />
     <Compile Include="Monad.fs" />
     <Compile Include="Comonad.fs" />
+    <Compile Include="Identity.fs" />
+    <Compile Include="Traversable.fs" />
     <Compile Include="Arrow.fs" />
     <Compile Include="Index.fs" />
     <Compile Include="Option.fs" />
@@ -77,7 +78,6 @@
     <Compile Include="Fix.fs" />
     <Compile Include="Cofree.fs" />
     <None Include="Script.fsx" />
-    <Compile Include="Identity.fs" />
     <Compile Include="Const.fs" />
     <Compile Include="FTLens.fs" />
     <Compile Include="PerfectTree.fs" />

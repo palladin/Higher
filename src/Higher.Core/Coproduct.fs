@@ -106,4 +106,4 @@ type CoproductContraFunctor<'F,'G>
     Coproduct.coproduct 
       (Coproduct.left << contraF.ContraMap f)
       (Coproduct.right << contraG.ContraMap f)
-      cp       
+      cp

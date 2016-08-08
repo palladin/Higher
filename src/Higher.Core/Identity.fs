@@ -9,6 +9,9 @@ type Identity private () =
     App<Identity, 'A>(token, value)
   static member Prj (app : App<Identity, 'A>) : Identity<'A> =
     app.Apply(token) :?> _
+  static member Run (app : App<Identity, 'A>) : 'A =
+    let (Id a) = Identity.Prj app
+    a
     
 type IdentityFunctor() =
   inherit Functor<Identity>() with
