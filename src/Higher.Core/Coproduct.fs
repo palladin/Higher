@@ -62,16 +62,6 @@ type CoproductTraversable<'F,'G>
   
   inherit Traversable<App2<Coproduct,'F,'G>>()
 
-  override self.Map 
-    (f: 'A -> 'B) 
-    (app: App3<Coproduct, 'F, 'G, 'A>) 
-    : App3<Coproduct,'F,'G,'B> = 
-
-    Coproduct.coproduct 
-      (Coproduct.left   << travF.Map f) 
-      (Coproduct.right  << travG.Map f) 
-      app
-
   override self.Traverse<'H, 'T, 'R> 
     (app : Applicative<'H>) 
     (f : 'T -> App<'H, 'R>) 
