@@ -95,6 +95,7 @@
     <Compile Include="Tuple.fs" />
     <Compile Include="FFree.fs" />
     <Compile Include="Free.fs" />
+    <Compile Include="Coproduct.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
