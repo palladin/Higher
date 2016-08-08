@@ -10,8 +10,6 @@ type Tuple private () =
     static member Prj (app2 : App2<Tuple, 'A, 'B>) : 'A * 'B = 
         let app = app2.Apply(AppToken<Tuple, 'A>.Token token) :?> App<Tuple, 'A>
         app.Apply(token) :?> _
-    static member Run(t : App2<Tuple, 'A, 'B>) = 
-        Tuple.Prj t 
 
 
 // Tuple Functor

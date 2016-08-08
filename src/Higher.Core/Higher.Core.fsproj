@@ -75,7 +75,6 @@
     <Compile Include="ContT.fs" />
     <Compile Include="Algebra.fs" />
     <Compile Include="Fix.fs" />
-    <Compile Include="FreeMonad.fs" />
     <Compile Include="Cofree.fs" />
     <None Include="Script.fsx" />
     <Compile Include="Identity.fs" />
@@ -94,8 +93,13 @@
     <Compile Include="Adjunction.fs" />
     <Compile Include="Fun.fs" />
     <Compile Include="Tuple.fs" />
+<<<<<<< HEAD
     <Compile Include="Coproduct.fs" />
     <Compile Include="Coroutine.fs" />
+=======
+    <Compile Include="FFree.fs" />
+    <Compile Include="Free.fs" />
+>>>>>>> palladin/master
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

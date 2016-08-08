@@ -10,8 +10,6 @@ type Fun private () =
     static member Prj (app2 : App2<Fun, 'A, 'B>) : 'A -> 'B = 
         let app = app2.Apply(AppToken<Fun, 'A>.Token token) :?> App<Fun, 'A>
         app.Apply(token) :?> _
-    static member Run(func : App2<Fun, 'A, 'B>) = 
-        Fun.Prj func 
 
 
 // Function Functor

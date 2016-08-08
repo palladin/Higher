@@ -30,4 +30,4 @@ type KleisliArrow<'M>(monad : Monad<'M>) =
     override self.Compose(f : App2<App<Kleisli, 'M>, 'A, 'B>) (g : App2<App<Kleisli, 'M>, 'B, 'C>) : App2<App<Kleisli, 'M>, 'A, 'C> = 
         let (K f') = Kleisli.Prj f
         let (K g') = Kleisli.Prj g
-        Kleisli.Inj <| K (fun a -> monad { let! b = f' a in let! c = g' b in return c })
+        Kleisli.Inj <| K (Monad.compose monad f' g')
