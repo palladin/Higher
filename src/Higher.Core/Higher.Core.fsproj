@@ -95,6 +95,7 @@
     <Compile Include="Fun.fs" />
     <Compile Include="Tuple.fs" />
     <Compile Include="Coproduct.fs" />
+    <Compile Include="Coroutine.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
