@@ -1,0 +1,25 @@
+type project
+title
+    Higher
+owners
+    palladin
+authors 
+    palladin
+projectUrl
+    https://github.com/palladin/Higher
+iconUrl
+    https://raw.githubusercontent.com/palladin/Higher/master/docs/files/img/logo.png
+licenseUrl
+    https://github.com/palladin/Higher/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+copyright
+    Copyright 2015
+tags
+    kind kinds Higher-kinded functor applicative monad algebra
+summary
+    Lightweight Higher-Kinded Polymorphism
+description
+    A lightweight library of abstractions for Higher-kinded programming in F#, based on Lightweight Higher-Kinded Polymorphism
+
+

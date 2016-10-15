@@ -1,41 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>5bff3686-d94a-438b-84ee-6390fa1e82eb</ProjectGuid>
+    <ProjectGuid>a76feeb6-cf93-465d-8f57-d729c1fffe76</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Higher.Tests</RootNamespace>
-    <AssemblyName>Higher.Tests</AssemblyName>
+    <RootNamespace>Higher</RootNamespace>
+    <AssemblyName>Higher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
-    <Name>Higher.Tests</Name>
+    <Name>Higher</Name>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>.\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <StartAction>Project</StartAction>
-    <StartProgram>
-    </StartProgram>
-    <StartArguments>
-    </StartArguments>
+    <DocumentationFile>.\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+    <OtherFlags>--warnon:1182</OtherFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>.\bin\Release</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
+    <DocumentationFile>.\bin\$(Configuration)\$(AssemblyName).xml</DocumentationFile>
+    <OtherFlags>--warnon:1182</OtherFlags>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -52,9 +49,8 @@
       </PropertyGroup>
     </Otherwise>
   </Choose>
-  <Import Project="$(FSharpTargetsPath)" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
@@ -65,19 +61,61 @@
   <ItemGroup>
     <None Include="paket.references" />
     <Content Include="App.config" />
-    <None Include="ListF.fsx" />
-    <Compile Include="Tests.fs" />
+    <None Include="paket.template" />
+    <None Include="Script.fsx" />
+    <Compile Include="CoreTypes.fs" />
+    <Compile Include="Category.fs" />
+    <Compile Include="Functor.fs" />
+    <Compile Include="Applicative.fs" />
+    <Compile Include="Monoid.fs" />
+    <Compile Include="Monad.fs" />
+    <Compile Include="Comonad.fs" />
+    <Compile Include="Identity.fs" />
+    <Compile Include="Traversable.fs" />
+    <Compile Include="Arrow.fs" />
+    <Compile Include="Index.fs" />
+    <Compile Include="Option.fs" />
+    <Compile Include="Choice.fs" />
+    <Compile Include="List.fs" />
+    <Compile Include="Reader.fs" />
+    <Compile Include="Seq.fs" />
+    <Compile Include="Writer.fs" />
+    <Compile Include="State.fs" />
+    <Compile Include="Cont.fs" />
+    <Compile Include="MonadTrans.fs" />
+    <Compile Include="OptionT.fs" />
+    <Compile Include="ListT.fs" />
+    <Compile Include="StateT.fs" />
+    <Compile Include="ReaderT.fs" />
+    <Compile Include="WriterT.fs" />
+    <Compile Include="ContT.fs" />
+    <Compile Include="Algebra.fs" />
+    <Compile Include="Fix.fs" />
+    <Compile Include="Cofree.fs" />
+    <Compile Include="Const.fs" />
+    <Compile Include="FTLens.fs" />
+    <Compile Include="PerfectTree.fs" />
+    <Compile Include="Kleisli.fs" />
+    <Compile Include="Flip.fs" />
+    <Compile Include="Leibniz.fs" />
+    <Compile Include="Compose.fs" />
+    <Compile Include="Codensity.fs" />
+    <Compile Include="RightKan.fs" />
+    <Compile Include="LeftKan.fs" />
+    <Compile Include="Yoneda.fs" />
+    <Compile Include="CoYoneda.fs" />
+    <Compile Include="Adjunction.fs" />
+    <Compile Include="Fun.fs" />
+    <Compile Include="Tuple.fs" />
+    <Compile Include="FFree.fs" />
+    <Compile Include="Free.fs" />
+    <Compile Include="Coproduct.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\..\src\Higher\Higher.fsproj">
-      <Name>Higher</Name>
-      <Project>{a76feeb6-cf93-465d-8f57-d729c1fffe76}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.5')">
@@ -144,11 +182,4 @@
       </ItemGroup>
     </When>
   </Choose>
-  <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\test\NUnit\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-      <Paket>True</Paket>
-    </Reference>
-  </ItemGroup>
 </Project>
