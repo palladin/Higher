@@ -18,5 +18,5 @@ A lightweight library of abstractions for Higher-kinded programming in F#, based
 
 Mono | .NET
 ---- | ----
-[![Mono CI Build Status](https://img.shields.io/travis/palladin/Higher/master.svg)](https://travis-ci.org/palladin/Higher) | [![.NET Build Status](https://img.shields.io/appveyor/ci/nessos/Higher/master.svg)](https://ci.appveyor.com/project/nessos/Higher)
+[![Mono CI Build Status](https://img.shields.io/travis/palladin/Higher/master.svg)](https://travis-ci.org/palladin/Higher) | [![.NET CI Build Status](https://img.shields.io/appveyor/ci/nessos/Higher/master.svg)](https://ci.appveyor.com/project/nessos/Higher)
 
