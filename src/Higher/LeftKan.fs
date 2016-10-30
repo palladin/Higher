@@ -19,15 +19,9 @@ type LanConstr<'G, 'H, 'B, 'A>(f : App<'G, 'B> -> 'A, app : App<'H, 'B>) =
 type Lan private () =
     static let token = new Lan()
     static member Inj (value : Lan<'G, 'H, 'A>) : App3<Lan, 'G, 'H, 'A> =
-        let app = new App<Lan, 'G>(token, value)
-        let app2 = new App2<Lan, 'G, 'H>(AppToken<Lan, 'G>.Token token, app)
-        new App3<Lan, 'G, 'H, 'A>(AppToken<App<Lan, 'G>, 'H>.Token app, app2)
+        App3<Lan, 'G, 'H, 'A>.Create(AppToken2<Lan, 'G, 'H>.Token(token), value)
     static member Prj (app3 : App3<Lan, 'G, 'H, 'A>) : Lan<'G, 'H, 'A> =
-        let token' = AppToken<Lan, 'G>.Token token
-        let token'' = AppToken<App<Lan, 'G>, 'H>.Token token'
-        let app2 = app3.Apply(token'') :?> App2<Lan, 'G, 'H>
-        let app = app2.Apply(token') :?> App<Lan, 'G>
-        app.Apply(token) :?> _
+        app3.Apply(AppToken2<Lan, 'G, 'H>.Token(token)) :?> _
 
 
 type LanFunctor<'G, 'H>() =

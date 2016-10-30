@@ -6,7 +6,7 @@ type Fix<'F> = Fix of App<'F, Fix<'F>>
 type Fix private () =
   static let token = new Fix()
   static member Inj (value : Fix<'F>) : App<Fix, 'F> =
-      new App<_, _>(token, value)
+      App<_, _>.Create(token, value)
   static member Prj (app : App<Fix, 'F>) : Fix<'F> =
       app.Apply(token) :?> _
 

@@ -6,11 +6,9 @@ type ListT<'M, 'T> = LT of App<'M, 'T list>
 type ListT private () =
     static let token = new ListT()
     static member Inj (value : ListT<'M, 'T>) : App2<ListT, 'M, 'T> =
-        let app = new App<ListT, 'M>(token, value)
-        new App2<ListT, 'M, 'T>(AppToken<ListT, 'M>.Token token, app)
+        App2<ListT, 'M, 'T>.Create(AppToken<ListT, 'M>.Token(token), value)
     static member Prj (app2 : App2<ListT, 'M, 'T>) : ListT<'M, 'T> =
-        let app = app2.Apply(AppToken<ListT, 'M>.Token token) :?> App<ListT, 'M>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<ListT, 'M>.Token(token)) :?> _
     static member Run (listT : App2<ListT, 'M, 'T>) =
         let (LT appList) = ListT.Prj listT in appList
 

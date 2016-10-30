@@ -8,13 +8,11 @@ type Monoid<'T>() =
     abstract Append : 'T -> 'T -> 'T
 
 type Monoid private () =
-  static let token = Monoid()
+  static let token = new Monoid()
   static member Inj (m : 'T) : App2<Monoid, 'A, 'B> =
-    let app = new App<Monoid, 'A>(token, m)
-    new App2<Monoid, 'A, 'B>(AppToken<Monoid, 'A>.Token token, app)
+    App2<Monoid, 'A, 'B>.Create(AppToken.Token(token), m)
   static member Prj (app2: App2<Monoid, 'A, 'B>) : 'T =
-    let app = app2.Apply(AppToken<Monoid, 'A>.Token token) :?> App<Monoid, 'A>
-    app.Apply(token) :?> _
+    app2.Apply(AppToken.Token(token)) :?> _
   static member Run (app2: App2<Monoid, 'A, 'B>) : 'T =
     Monoid.Prj app2
 

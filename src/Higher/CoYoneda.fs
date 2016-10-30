@@ -17,11 +17,9 @@ type CoYonedaConstr<'F, 'B, 'A>(f : 'B -> 'A, app : App<'F, 'B>) =
 type CoYoneda private () =
     static let token = new CoYoneda()
     static member Inj (value : CoYoneda<'F, 'A>) : App2<CoYoneda, 'F, 'A> =
-        let app = new App<CoYoneda, 'F>(token, value)
-        new App2<CoYoneda, 'F, 'A>(AppToken<CoYoneda, 'F>.Token token, app)
+        App2<CoYoneda, 'F, 'A>.Create(AppToken<CoYoneda, 'F>.Token(token), value)
     static member Prj (app2 : App2<CoYoneda, 'F, 'A>) : CoYoneda<'F, 'A> =
-        let app = app2.Apply(AppToken<CoYoneda, 'F>.Token token) :?> App<CoYoneda, 'F>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<CoYoneda, 'F>.Token(token)) :?> _
 
 
 type CoYonedaFunctor<'F>() =

@@ -6,7 +6,7 @@ type Identity private () =
   static let token = Identity()
   static member inline un (Id(a)) = a
   static member Inj (value : Identity<'A>) : App<Identity, 'A> =
-    App<Identity, 'A>(token, value)
+    App<Identity, 'A>.Create(token, value)
   static member Prj (app : App<Identity, 'A>) : Identity<'A> =
     app.Apply(token) :?> _
   static member Run (app : App<Identity, 'A>) : 'A =

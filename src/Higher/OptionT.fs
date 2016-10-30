@@ -6,11 +6,9 @@ type OptionT<'M, 'T> = OT of App<'M, 'T option>
 type OptionT private () =
     static let token = new OptionT()
     static member Inj (value : OptionT<'M, 'T>) : App2<OptionT, 'M, 'T> =
-        let app = new App<OptionT, 'M>(token, value)
-        new App2<OptionT, 'M, 'T>(AppToken<OptionT, 'M>.Token token, app)
+        App2<OptionT, 'M, 'T>.Create(AppToken<OptionT, 'M>.Token(token), value)
     static member Prj (app2 : App2<OptionT, 'M, 'T>) : OptionT<'M, 'T> =
-        let app = app2.Apply(AppToken<OptionT, 'M>.Token token) :?> App<OptionT, 'M>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<OptionT, 'M>.Token(token)) :?> _
     static member Run (optionT : App2<OptionT, 'M, 'T>) =
         let (OT appOption) = OptionT.Prj optionT in appOption
 

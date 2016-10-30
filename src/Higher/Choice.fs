@@ -4,11 +4,9 @@
 type Choice private () =
     static let token = new Choice()
     static member Inj (value : Choice<'A,'B>) : App2<Choice, 'A, 'B> =
-        let app = new App<Choice, 'A>(token, value)
-        new App2<_, _, _>(AppToken<Choice, 'A>.Token token, app)
+        App2<_, _, _>.Create (AppToken<Choice, 'A>.Token(token), value)
     static member Prj (app2 : App2<Choice, 'A, 'B>) : Choice<'A, 'B> =
-        let app = app2.Apply(AppToken<Choice, 'A>.Token token) :?> App<Choice, 'A>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Choice, 'A>.Token(token)) :?> _
 
 /// Choice Monad instance
 type ChoiceMonad<'A>() =

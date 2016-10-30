@@ -6,15 +6,9 @@ type StateT<'S, 'M, 'T> = ST of ('S -> App<'M, ('T * 'S)>)
 type StateT private () =
     static let token = new StateT()
     static member Inj (value : StateT<'S, 'M, 'T>) : App3<StateT, 'S, 'M, 'T> =
-        let app = new App<StateT, 'S>(token, value)
-        let app2 = new App2<StateT, 'S, 'M>(AppToken<StateT, 'S>.Token token, app)
-        new App3<StateT, 'S, 'M, 'T>(AppToken<App<StateT, 'S>, 'M>.Token app, app2)
+        App3<StateT, 'S, 'M, 'T>.Create(AppToken2<StateT, 'S, 'M>.Token(token), value)
     static member Prj (app3 : App3<StateT, 'S, 'M, 'T>) : StateT< 'S, 'M, 'T> =
-        let token' = AppToken<StateT, 'S>.Token token
-        let token'' = AppToken<App<StateT, 'S>, 'M>.Token token'
-        let app2 = app3.Apply(token'') :?> App2<StateT, 'S, 'M>
-        let app = app2.Apply(token') :?> App<StateT, 'S>
-        app.Apply(token) :?> _
+        app3.Apply(AppToken2<StateT, 'S, 'M>.Token(token)) :?> _
     static member Run (stateT : App3<StateT, 'S, 'M, 'T>) =
         let (ST state) = StateT.Prj stateT  in state
 

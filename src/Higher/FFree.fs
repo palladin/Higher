@@ -23,11 +23,9 @@ and FFreeUnPack<'F, 'A, 'R> =
 and FFree private () =
     static let token = new FFree()
     static member Inj (value : FFree<'F, 'T>) : App2<FFree, 'F, 'T> =
-        let app = new App<FFree, 'F>(token, value)
-        new App2<FFree, 'F, 'T>(AppToken<FFree, 'F>.Token token, app)
+        App2<FFree, 'F, 'T>.Create(AppToken<FFree, 'F>.Token(token), value)
     static member Prj (app2 : App2<FFree, 'F, 'T>) : FFree<'F, 'T> =
-        let app = app2.Apply(AppToken<FFree, 'F>.Token token) :?> App<FFree, 'F>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<FFree, 'F>.Token(token)) :?> _
 
 /// Freer Monad instance
 type FreerMonad<'F>() =

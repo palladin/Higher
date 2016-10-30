@@ -8,11 +8,9 @@ type Codensity<'M, 'A> =
 type CodenT private () =
     static let token = new CodenT()
     static member Inj (value : Codensity<'M, 'T>) : App2<CodenT, 'M, 'T> =
-        let app = new App<CodenT, 'M>(token, value)
-        new App2<CodenT, 'M, 'T>(AppToken<CodenT, 'M>.Token token, app)
+        App2<CodenT, 'M, 'T>.Create(AppToken<CodenT, 'M>.Token(token), value)
     static member Prj (app2 : App2<CodenT, 'M, 'T>) : Codensity<'M, 'T> =
-        let app = app2.Apply(AppToken<CodenT, 'M>.Token token) :?> App<CodenT, 'M>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<CodenT, 'M>.Token(token)) :?> _
 
 
 type CodensityMonad<'M>() =

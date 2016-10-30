@@ -4,7 +4,7 @@
 type List private () =
     static let token = new List()
     static member Inj (value : 'T list) : App<List, 'T> =
-        new App<_, _>(token, value)
+        App<_, _>.Create(token, value)
     static member Prj (app : App<List, 'T>) : 'T list =
         app.Apply(token) :?> _
 

@@ -6,11 +6,9 @@ type Cont<'R, 'T> = C of (('T -> 'R) -> 'R)
 type Cont private () =
     static let token = new Cont()
     static member Inj (value : Cont<'R, 'T>) : App2<Cont, 'R, 'T> =
-        let app = new App<Cont, 'R>(token, value)
-        new App2<Cont, 'R, 'T>(AppToken<Cont, 'R>.Token token, app)
+        App2<Cont, 'R, 'T>.Create(AppToken<Cont, 'R>.Token(token), value)
     static member Prj (app2 : App2<Cont, 'R, 'T>) : Cont<'R, 'T> =
-        let app = app2.Apply(AppToken<Cont, 'R>.Token token) :?> App<Cont, 'R>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Cont, 'R>.Token(token)) :?> _
     static member Run(cont : App2<Cont, 'R, 'T>) =
         let (C f) = Cont.Prj cont in f
 

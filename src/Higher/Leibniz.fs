@@ -11,11 +11,9 @@ type Eq<'A, 'B> =
 type Eq private () =
     static let token = new Eq()
     static member Inj (value : Eq<'A, 'B>) : App2<Eq, 'A, 'B> =
-        let app = new App<Eq, 'A>(token, value)
-        new App2<Eq, 'A, 'B>(AppToken<Eq, 'A>.Token token, app)
+        App2<Eq, 'A, 'B>.Create(AppToken<Eq, 'A>.Token(token), value)
     static member Prj (app2 : App2<Eq, 'A, 'B>) : Eq<'A, 'B> =
-        let app = app2.Apply(AppToken<Eq, 'A>.Token token) :?> App<Eq, 'A>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Eq, 'A>.Token(token)) :?> _
 
 
 type AppEq<'A, 'B> = App2<Eq, 'A, 'B>

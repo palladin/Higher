@@ -7,11 +7,9 @@ type Index<'F, 'G> =
 type Index private () =
     static let token = new Index()
     static member Inj (value : Index<'F, 'G>) : App2<Index, 'F, 'G> =
-        let app = new App<Index, 'F>(token, value)
-        new App2<Index, 'F, 'G>(AppToken<Index, 'F>.Token token, app)
+        App2<Index, 'F, 'G>.Create(AppToken<Index, 'F>.Token(token), value)
     static member Prj (app2 : App2<Index, 'F, 'G>) : Index<'F, 'G> =
-        let app = app2.Apply(AppToken<Index, 'F>.Token token) :?> App<Index, 'F>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Index, 'F>.Token(token)) :?> _
     static member Run(index : App2<Index, 'F, 'G>) =
         Index.Prj index
 

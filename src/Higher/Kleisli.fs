@@ -5,15 +5,9 @@ type Kleisli<'M, 'A, 'B> = K of ('A -> App<'M, 'B>)
 type Kleisli private () =
     static let token = new Kleisli()
     static member Inj (value : Kleisli<'M, 'A, 'B>) : App3<Kleisli, 'M, 'A, 'B> =
-        let app = new App<Kleisli, 'M>(token, value)
-        let app2 = new App2<Kleisli, 'M, 'A>(AppToken<Kleisli, 'M>.Token token, app)
-        new App3<Kleisli, 'M, 'A, 'B>(AppToken<App<Kleisli, 'M>, 'A>.Token app, app2)
+        App3<Kleisli, 'M, 'A, 'B>.Create(AppToken2<Kleisli, 'M, 'A>.Token(token), value)
     static member Prj (app3 : App3<Kleisli, 'M, 'A, 'B>) : Kleisli< 'M, 'A, 'B> =
-        let token' = AppToken<Kleisli, 'M>.Token token
-        let token'' = AppToken<App<Kleisli, 'M>, 'A>.Token token'
-        let app2 = app3.Apply(token'') :?> App2<Kleisli, 'M, 'A>
-        let app = app2.Apply(token') :?> App<Kleisli, 'M>
-        app.Apply(token) :?> _
+        app3.Apply(AppToken2<Kleisli, 'M, 'A>.Token(token)) :?> _
     static member Run (app : App3<Kleisli, 'M, 'A, 'B>) =
         let (K f) = Kleisli.Prj app in f
 

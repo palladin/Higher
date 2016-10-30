@@ -4,7 +4,7 @@
 type Seq private () =
     static let token = new Seq()
     static member Inj (value : seq<'T>) : App<Seq, 'T> =
-        new App<_, _>(token, value)
+        App<_, _>.Create(token, value)
     static member Prj (app : App<Seq, 'T>) : seq<'T> =
         app.Apply(token) :?> _
 

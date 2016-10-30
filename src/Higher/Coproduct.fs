@@ -6,16 +6,9 @@ type Coproduct private () =
   static let token = new Coproduct()
 
   static member Inj (value: Coproduct<'F,'G,'A>) : App3<Coproduct,'F,'G,'A> =
-    let app = new App<Coproduct,'F>(token,value)
-    let app2 = new App2<Coproduct,'F,'G>(AppToken<Coproduct,'F>.Token token, app)
-    new App3<Coproduct,'F,'G,'A>(AppToken<App<Coproduct,'F>,'G>.Token app, app2)
-
+    App3<Coproduct,'F,'G,'A>.Create(AppToken2<Coproduct,'F,'G>.Token(token), value)
   static member Prj (app3: App3<Coproduct,'F,'G,'A>) : Coproduct<'F,'G,'A> =
-    let token' = AppToken<Coproduct,'F>.Token token
-    let token'' = AppToken<App<Coproduct,'F>,'G>.Token token'
-    let app2 = app3.Apply(token'') :?> App2<Coproduct,'F,'G>
-    let app = app2.Apply(token') :?> App<Coproduct,'F>
-    app.Apply(token) :?> _
+    app3.Apply(AppToken2<Coproduct,'F,'G>.Token(token)) :?> _
 
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]

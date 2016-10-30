@@ -4,7 +4,7 @@
 type Option private () =
     static let token = new Option()
     static member Inj (value : 'T option) : App<Option, 'T> =
-        new App<_, _>(token, value)
+        App<_, _>.Create(token, value)
     static member Prj (app : App<Option, 'T>) : 'T option =
         app.Apply(token) :?> _
 

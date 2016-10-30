@@ -8,11 +8,9 @@ type Yoneda<'F, 'A> =
 type Yoneda private () =
     static let token = new Yoneda()
     static member Inj (value : Yoneda<'F, 'A>) : App2<Yoneda, 'F, 'A> =
-        let app = new App<Yoneda, 'F>(token, value)
-        new App2<Yoneda, 'F, 'A>(AppToken<Yoneda, 'F>.Token token, app)
+        App2<Yoneda, 'F, 'A>.Create(AppToken<Yoneda, 'F>.Token(token), value)
     static member Prj (app2 : App2<Yoneda, 'F, 'A>) : Yoneda<'F, 'A> =
-        let app = app2.Apply(AppToken<Yoneda, 'F>.Token token) :?> App<Yoneda, 'F>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Yoneda, 'F>.Token(token)) :?> _
 
 
 type YonedaFunctor<'F>() =

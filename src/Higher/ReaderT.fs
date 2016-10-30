@@ -6,15 +6,9 @@ type ReaderT<'R, 'M, 'T> = RT of ('R -> App<'M, 'T>)
 type ReaderT private () =
     static let token = new ReaderT()
     static member Inj (value : ReaderT<'R, 'M, 'T>) : App3<ReaderT, 'R, 'M, 'T> =
-        let app = new App<ReaderT, 'R>(token, value)
-        let app2 = new App2<ReaderT, 'R, 'M>(AppToken<ReaderT, 'R>.Token token, app)
-        new App3<ReaderT, 'R, 'M, 'T>(AppToken<App<ReaderT, 'R>, 'M>.Token app, app2)
+        App3<ReaderT, 'R, 'M, 'T>.Create(AppToken2<ReaderT, 'R, 'M>.Token(token), value)
     static member Prj (app3 : App3<ReaderT, 'R, 'M, 'T>) : ReaderT<'R, 'M, 'T> =
-        let token' = AppToken<ReaderT, 'R>.Token token
-        let token'' = AppToken<App<ReaderT, 'R>, 'M>.Token token'
-        let app2 = app3.Apply(token'') :?> App2<ReaderT, 'R, 'M>
-        let app = app2.Apply(token') :?> App<ReaderT, 'R>
-        app.Apply(token) :?> _
+        app3.Apply(AppToken2<ReaderT, 'R, 'M>.Token(token)) :?> _
     static member Run (readerT : App3<ReaderT, 'R, 'M, 'T>) =
         let (RT reader) = ReaderT.Prj readerT in reader
 

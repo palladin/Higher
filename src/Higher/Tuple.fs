@@ -5,11 +5,9 @@
 type Tuple private () =
     static let token = new Tuple()
     static member Inj (value : 'A * 'B) : App2<Tuple, 'A, 'B> =
-        let app = new App<Tuple, 'A>(token, value)
-        new App2<Tuple, 'A, 'B>(AppToken<Tuple, 'A>.Token token, app)
+        App2<Tuple, 'A, 'B>.Create(AppToken<Tuple, 'A>.Token(token), value)
     static member Prj (app2 : App2<Tuple, 'A, 'B>) : 'A * 'B =
-        let app = app2.Apply(AppToken<Tuple, 'A>.Token token) :?> App<Tuple, 'A>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Tuple, 'A>.Token(token)) :?> _
 
 
 /// Tuple Functor

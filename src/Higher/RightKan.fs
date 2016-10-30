@@ -12,15 +12,9 @@ type Ran<'G, 'H, 'A> =
 type Ran private () =
     static let token = new Ran()
     static member Inj (value : Ran<'G, 'H, 'A>) : App3<Ran, 'G, 'H, 'A> =
-        let app = new App<Ran, 'G>(token, value)
-        let app2 = new App2<Ran, 'G, 'H>(AppToken<Ran, 'G>.Token token, app)
-        new App3<Ran, 'G, 'H, 'A>(AppToken<App<Ran, 'G>, 'H>.Token app, app2)
+        App3<Ran, 'G, 'H, 'A>.Create(AppToken2<Ran, 'G, 'H>.Token(token), value)
     static member Prj (app3 : App3<Ran, 'G, 'H, 'A>) : Ran<'G, 'H, 'A> =
-        let token' = AppToken<Ran, 'G>.Token token
-        let token'' = AppToken<App<Ran, 'G>, 'H>.Token token'
-        let app2 = app3.Apply(token'') :?> App2<Ran, 'G, 'H>
-        let app = app2.Apply(token') :?> App<Ran, 'G>
-        app.Apply(token) :?> _
+        app3.Apply(AppToken2<Ran, 'G, 'H>.Token(token)) :?> _
 
 type RanFunctor<'G, 'H>() =
     inherit Functor<App2<Ran, 'G, 'H>>()

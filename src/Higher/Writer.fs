@@ -6,11 +6,9 @@ type Writer<'W, 'T> = W of ('T * 'W)
 type Writer private () =
     static let token = new Writer()
     static member Inj (value : Writer<'W, 'T>) : App2<Writer, 'W, 'T> =
-        let app = new App<Writer, 'W>(token, value)
-        new App2<Writer, 'W, 'T>(AppToken<Writer, 'W>.Token token, app)
+        App2<Writer, 'W, 'T>.Create(AppToken<Writer, 'W>.Token(token), value)
     static member Prj (app2 : App2<Writer, 'W, 'T>) : Writer<'W, 'T> =
-        let app = app2.Apply(AppToken<Writer, 'W>.Token token) :?> App<Writer, 'W>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Writer, 'W>.Token(token)) :?> _
     static member Run(writer : App2<Writer, 'W, 'T>) =
         let (W (v, w)) = Writer.Prj writer in (v, w)
 

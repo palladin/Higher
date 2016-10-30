@@ -6,11 +6,9 @@ type State<'S, 'T> = S of ('S -> ('T * 'S))
 type State private () =
     static let token = new State()
     static member Inj (value : State<'S, 'T>) : App2<State, 'S, 'T> =
-        let app = new App<State, 'S>(token, value)
-        new App2<State, 'S, 'T>(AppToken<State, 'S>.Token token, app)
+        App2<State, 'S, 'T>.Create(AppToken<State, 'S>.Token(token), value)
     static member Prj (app2 : App2<State, 'S, 'T>) : State<'S, 'T> =
-        let app = app2.Apply(AppToken<State, 'S>.Token token) :?> App<State, 'S>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<State, 'S>.Token(token)) :?> _
     static member Run(state : App2<State, 'S, 'T>) =
         let (S f) = State.Prj state in f
 

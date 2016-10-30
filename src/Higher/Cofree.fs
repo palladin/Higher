@@ -6,11 +6,9 @@ type Cofree<'F, 'A> = Cofree of 'A * App<'F, Cofree<'F, 'A>>
 type Cofree private () =
   static let token = new Cofree()
   static member Inj (value : Cofree<'F, 'A>) : App2<Cofree, 'F, 'A> =
-    let app = new App<Cofree, 'F>(token, value)
-    new App2<Cofree, 'F, 'A>(AppToken<Cofree, 'F>.Token token, app)
+    App2<Cofree, 'F, 'A>.Create(AppToken<Cofree, 'F>.Token(token), value)
   static member Prj (app2 : App2<Cofree, 'F, 'A>) : Cofree<'F, 'A> =
-    let app = app2.Apply(AppToken<Cofree, 'F>.Token token) :?> App<Cofree, 'A>
-    app.Apply(token) :?> _
+    app2.Apply(AppToken<Cofree, 'F>.Token(token)) :?> _
 
 
 type CofreeComonad<'F>(func : Functor<'F>) =

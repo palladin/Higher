@@ -1,4 +1,4 @@
-﻿#r "../../bin/Higher/Higher.dll"
+﻿#r "bin/Release/Higher.dll"
 open Higher
 
 
@@ -78,3 +78,5 @@ type CurryUncurry<'A>() =
     override self.CoUnit (v : App<App<Tuple, 'A>, App2<Fun, 'A, 'B>> ) : 'B =
         let (x, f) = Tuple.Prj v
         Fun.Prj f x
+
+

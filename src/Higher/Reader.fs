@@ -6,11 +6,9 @@ type Reader<'R, 'T> = R of ('R -> 'T)
 type Reader private () =
     static let token = new Reader()
     static member Inj (value : Reader<'R, 'T>) : App2<Reader, 'R, 'T> =
-        let app = new App<Reader, 'R>(token, value)
-        new App2<Reader, 'R, 'T>(AppToken<Reader, 'R>.Token token, app)
+        App2<Reader, 'R, 'T>.Create(AppToken<Reader, 'R>.Token(token), value)
     static member Prj (app2 : App2<Reader, 'R, 'T>) : Reader<'R, 'T> = 
-        let app = app2.Apply(AppToken<Reader, 'R>.Token token) :?> App<Reader, 'R>
-        app.Apply(token) :?> _
+        app2.Apply(AppToken<Reader, 'R>.Token(token)) :?> _
     static member Run(reader : App2<Reader, 'R, 'T>) =
         let (R f) = Reader.Prj reader in f
 
